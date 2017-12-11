@@ -1,5 +1,5 @@
 class container:
-    def __init__(self, width, height, parent, childs, split_factor, splid_mode, container_id, leav, leav_id):
+    def __init__(self, width, height, parent, childs, split_factor, splid_mode, container_id, leav, hwnd):
         self.width = width
         self.height = height
         self.parent = parent
@@ -10,7 +10,7 @@ class container:
         self.split_factor = split_factor
         self.set_Percentage()
         self.leav = leav
-        self.leav_id = leav_id
+        self.hwnd = hwnd
 
     def set_Percentage():
         for i in self.childs:

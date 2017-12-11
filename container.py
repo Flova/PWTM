@@ -24,7 +24,7 @@ class container:
     def reset_child_Percentage(self):
         for i in childs:
             i.split_factor = 1/self.childs.count()
-        set_Percentage()
+        self.set_Percentage()
 
 
     def change_Split_Mode(self):
@@ -36,7 +36,7 @@ class container:
 
     def add_container(self,container):
         self.childs.append(container)
-        set_Percentage()
+        self.set_Percentage()
 
     def add_Part_To_Other_Childs(self,part_value):
         part_to_add = part_value/self.childs.count()

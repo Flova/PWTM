@@ -12,7 +12,7 @@ def draw_Window(hwnd,x,y,heigth,width):
     win32gui.MoveWindow(hwnd, int(x), int(y),int(width + 2*outline_x), int(heigth + 2 * outline_y), True)
 
 def place_Windows(container_uebergabe, lokation_x, lokation_y):
-    print(container_uebergabe.hwnd)
+    print("\nPrint Recursive Draw of Container\nContainer id: " + str(container_uebergabe.hwnd) + "\nIs Leav: " + str(container_uebergabe.leav) + "\nPosition: " + str(lokation_x) + " | " + str(lokation_y) + "\nSize:" + str(container_uebergabe.width) + " | " + str(container_uebergabe.height) + "\n\n--------------------------------------------------------------\n")
     if container_uebergabe.leav == True:
         draw_Window(container_uebergabe.hwnd,lokation_x,lokation_y,container_uebergabe.height,container_uebergabe.width)
     else:
@@ -35,17 +35,23 @@ def main():
     win32gui.EnumWindows(enumHandler1, windowlist)
     counter = 0
     root_container.add_container(container.container(0,0,0,[],0.5, 0,1, True, 0))
-    root_container.add_container(container.container(0,0,0,[],0.5, 0,2, True, 0))
+    root_container.add_container(container.container(0,0,0,[],0.5, 1,2, False, 0))
+    root_container.childs[1].add_container(container.container(0,0,0,[],0.7, 0,3, True, 0))
+    root_container.childs[1].add_container(container.container(0,0,0,[],0.3, 0,4, True, 0))
+    print(windowlist)
     for a in windowlist:
         if win32gui.IsWindowVisible(a) and (a != 0) and str(win32gui.GetWindowText(a)) != "":
             try:
                 win32gui.ShowWindow(a, win32con.SW_NORMAL)
                 if counter == 1:
                     root_container.childs[0].hwnd = int(a)
-                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a))
+                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
                 if counter == 2:
-                    root_container.childs[1].hwnd = int(a)
-                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a))
+                    root_container.childs[1].childs[0].hwnd = int(a)
+                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
+                if counter == 3:
+                    root_container.childs[1].childs[1].hwnd = int(a)
+                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
                 counter += 1
             except Exception as e:
                 print("Error Type 1\n" + str(e))
@@ -55,5 +61,5 @@ def main():
     place_Windows(root_container,0,0)
 
 if __name__ == '__main__':
-    root_container = container.container(system_width,system_height, 0, [], 1, 1, 0, False,0)
+    root_container = container.container(system_width,system_height, 0, [], 1, 0, 0, False,0)
     main()

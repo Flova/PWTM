@@ -13,7 +13,11 @@ def draw_Window(hwnd,x,y,heigth,width):
     win32gui.MoveWindow(hwnd, int(x), int(y),int(width + 2*outline_x), int(heigth + 2 * outline_y), True)
 
 def place_Windows(container_uebergabe, lokation_x, lokation_y):
-    print("\nPrint Recursive Draw of Container\nContainer id: " + str(container_uebergabe.hwnd) + "\nIs Leav: " + str(container_uebergabe.leav) + "\nPosition: " + str(lokation_x) + " | " + str(lokation_y) + "\nSize:" + str(container_uebergabe.width) + " | " + str(container_uebergabe.height) + "\n\n--------------------------------------------------------------\n")
+    try:
+        title = str(win32gui.GetWindowText(container_uebergabe.hwnd))
+    except:
+        title = "Invalid"
+    print("\nPrint Recursive Draw of Container\nContainer id: " + str(container_uebergabe.hwnd) + "\n Window Title: " + title + "\nIs Leav: " + str(container_uebergabe.leav) + "\nPosition: " + str(lokation_x) + " | " + str(lokation_y) + "\nSize:" + str(container_uebergabe.width) + " | " + str(container_uebergabe.height) + "\n\n--------------------------------------------------------------\n")
     if container_uebergabe.leav == True:
         draw_Window(container_uebergabe.hwnd,lokation_x,lokation_y,container_uebergabe.height,container_uebergabe.width)
     else:
@@ -31,7 +35,7 @@ def place_Windows(container_uebergabe, lokation_x, lokation_y):
                 pixel_vertical_counter += i.height
 
 def check_Window(hwnd):
-     if(win32gui.IsWindowVisible(hwnd) and (hwnd != 0) and str(win32gui.GetWindowText(hwnd)) != ""):
+     if(win32gui.IsWindowVisible(hwnd) and (hwnd != 0) and str(win32gui.GetWindowText(hwnd)) != "Windows PowerShell" and str(win32gui.GetWindowText(hwnd)) != ""):
          return True
      return False
 

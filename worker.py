@@ -3,6 +3,7 @@ import container
 import win32gui, win32con, time
 from win32api import GetSystemMetrics
 
+windowlist = []
 system_height = GetSystemMetrics(1)
 system_width = GetSystemMetrics(0)
 outline_x = 0
@@ -19,26 +20,40 @@ def place_Windows(container_uebergabe, lokation_x, lokation_y):
         if container_uebergabe.splid_mode == 0:
             pixel_horrizontal_counter = lokation_x
             for i in container_uebergabe.childs:
+                i.set_Percentage()
                 place_Windows(i,pixel_horrizontal_counter,lokation_y)
                 pixel_horrizontal_counter += i.width
         else:
             pixel_vertical_counter = lokation_y
             for i in container_uebergabe.childs:
+                i.set_Percentage()
                 place_Windows(i,lokation_x,pixel_vertical_counter)
                 pixel_vertical_counter += i.height
 
-def enumHandler1(hwnd, list1):
-    list1.append(int(hwnd))
+def check_Window(hwnd):
+     if(win32gui.IsWindowVisible(hwnd) and (a != hwnd) and str(win32gui.GetWindowText(hwnd)) != ""):
+         return True
+     return False
 
-def main():
-    windowlist = []
+def enumHandler1(hwnd, list1):
+    if check_Window(hwnd):
+        list1.append(int(hwnd))
+
+def add_all_windows():
     win32gui.EnumWindows(enumHandler1, windowlist)
-    counter = 0
+
+def debug_init():
     root_container.add_container(container.container(0,0,0,[],0.5, 0,1, True, 0))
     root_container.add_container(container.container(0,0,0,[],0.5, 1,2, False, 0))
-    root_container.childs[1].add_container(container.container(0,0,0,[],0.7, 0,3, True, 0))
-    root_container.childs[1].add_container(container.container(0,0,0,[],0.3, 0,4, True, 0))
+    root_container.childs[1].add_container(container.container(0,0,0,[],0.5, 0,3, True, 0))
+    root_container.childs[1].add_container(container.container(0,0,0,[],0.5, 0,4, True, 0))
     print(windowlist)
+
+
+def main():
+    add_all_windows()
+    debug_init()
+    counter = 0
     for a in windowlist:
         if win32gui.IsWindowVisible(a) and (a != 0) and str(win32gui.GetWindowText(a)) != "":
             try:

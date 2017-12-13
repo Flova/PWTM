@@ -22,8 +22,8 @@ class container:
                 i.height = self.height * i.split_factor
 
     def reset_child_Percentage(self):
-        for i in childs:
-            i.split_factor = 1/self.childs.count()
+        for i in self.childs:
+            i.split_factor = 1/len(self.childs)
         self.set_Percentage()
 
 
@@ -36,7 +36,7 @@ class container:
 
     def add_container(self,container):
         self.childs.append(container)
-        self.set_Percentage()
+        self.reset_child_Percentage()
 
     def add_Part_To_Other_Childs(self,part_value):
         part_to_add = part_value/self.childs.count()

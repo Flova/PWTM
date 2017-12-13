@@ -31,7 +31,7 @@ def place_Windows(container_uebergabe, lokation_x, lokation_y):
                 pixel_vertical_counter += i.height
 
 def check_Window(hwnd):
-     if(win32gui.IsWindowVisible(hwnd) and (a != hwnd) and str(win32gui.GetWindowText(hwnd)) != ""):
+     if(win32gui.IsWindowVisible(hwnd) and (hwnd != 0) and str(win32gui.GetWindowText(hwnd)) != ""):
          return True
      return False
 
@@ -43,6 +43,7 @@ def add_all_windows():
     win32gui.EnumWindows(enumHandler1, windowlist)
 
 def debug_init():
+    root_container.leav = False
     root_container.add_container(container.container(0,0,0,[],0.5, 0,1, True, 0))
     root_container.add_container(container.container(0,0,0,[],0.5, 1,2, False, 0))
     root_container.childs[1].add_container(container.container(0,0,0,[],0.5, 0,3, True, 0))
@@ -50,24 +51,20 @@ def debug_init():
     print(windowlist)
     root_container.childs[0].hwnd = int(windowlist[0])
     print(win32gui.GetWindowText(windowlist[0]) + "  " + str(windowlist[0]) + "\n")
-    for index, hwnd in enumerate(windowlist.pop(0)):
+    index = 0
+    for hwnd in windowlist:
         try:
             win32gui.ShowWindow(hwnd, win32con.SW_NORMAL)
             root_container.childs[1].childs[index].hwnd = int(hwnd)
             print(win32gui.GetWindowText(hwnd) + "  "  + str(hwnd) + "\n")
         except Exception as e:
             print("Error Type 1\n" + str(hwnd))
+        index += 1
 
 
 def main():
     add_all_windows()
     debug_init()
-                counter += 1
-            except Exception as e:
-                print("Error Type 1\n" + str(e))
-
-
-    root_container.leav = False
     place_Windows(root_container,0,0)
 
 if __name__ == '__main__':

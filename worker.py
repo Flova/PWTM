@@ -48,25 +48,20 @@ def debug_init():
     root_container.childs[1].add_container(container.container(0,0,0,[],0.5, 0,3, True, 0))
     root_container.childs[1].add_container(container.container(0,0,0,[],0.5, 0,4, True, 0))
     print(windowlist)
+    root_container.childs[0].hwnd = int(windowlist[0])
+    print(win32gui.GetWindowText(windowlist[0]) + "  " + str(windowlist[0]) + "\n")
+    for index, hwnd in enumerate(windowlist.pop(0)):
+        try:
+            win32gui.ShowWindow(hwnd, win32con.SW_NORMAL)
+            root_container.childs[1].childs[index].hwnd = int(hwnd)
+            print(win32gui.GetWindowText(hwnd) + "  "  + str(hwnd) + "\n")
+        except Exception as e:
+            print("Error Type 1\n" + str(hwnd))
 
 
 def main():
     add_all_windows()
     debug_init()
-    counter = 0
-    for a in windowlist:
-        if win32gui.IsWindowVisible(a) and (a != 0) and str(win32gui.GetWindowText(a)) != "":
-            try:
-                win32gui.ShowWindow(a, win32con.SW_NORMAL)
-                if counter == 1:
-                    root_container.childs[0].hwnd = int(a)
-                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
-                if counter == 2:
-                    root_container.childs[1].childs[0].hwnd = int(a)
-                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
-                if counter == 3:
-                    root_container.childs[1].childs[1].hwnd = int(a)
-                    print(win32gui.GetWindowText(a) + "  " + str(counter) + "  " + str(a) + "\n")
                 counter += 1
             except Exception as e:
                 print("Error Type 1\n" + str(e))

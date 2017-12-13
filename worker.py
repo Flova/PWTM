@@ -52,7 +52,9 @@ def debug_init():
     root_container.childs[0].hwnd = int(windowlist[0])
     print(win32gui.GetWindowText(windowlist[0]) + "  " + str(windowlist[0]) + "\n")
     index = 0
-    for hwnd in windowlist.pop(0):
+    test1 = windowlist
+    test1.pop(0)
+    for hwnd in test1:
         try:
             win32gui.ShowWindow(hwnd, win32con.SW_NORMAL)
             root_container.childs[1].childs[index].hwnd = int(hwnd)
